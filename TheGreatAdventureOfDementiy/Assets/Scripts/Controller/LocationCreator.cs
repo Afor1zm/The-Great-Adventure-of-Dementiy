@@ -1,18 +1,17 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Entities;
 
-public class LocationCreator : MonoBehaviour
+public sealed class LocationCreator : SystemBase
 {
-    // Start is called before the first frame update
-    void Start()
+    protected override void OnUpdate()
     {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        var keyDown = Input.GetKeyDown(KeyCode.Space);
+        Entities.ForEach((Entity entity) =>
+        {
+           
+        })
+            .Run();
     }
 }
