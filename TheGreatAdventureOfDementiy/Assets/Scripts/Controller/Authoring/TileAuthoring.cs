@@ -25,7 +25,7 @@ public class TileAuthoring : MonoBehaviour, IConvertGameObjectToEntity
             }
         }        
     }
-    public void Convert(Entity entity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
+    public void Convert(Entity creatorEntity, EntityManager dstManager, GameObjectConversionSystem conversionSystem)
     {        
         var tileElements = new NativeArray<TileElement>(_tiles.Length, Allocator.Temp);
         var countEntity = 0;
@@ -33,11 +33,24 @@ public class TileAuthoring : MonoBehaviour, IConvertGameObjectToEntity
         {
             for (int y = 0; y < height; y++)
             {
+                //Get conversed Entity from GameObjects
                 var tileElementEntity = conversionSystem.GetPrimaryEntity(_tiles[countEntity]);
-                Debug.Log($"{tilePrefab.transform.position}");
-                tileElements[countEntity] = new TileElement() { _value = tileElementEntity };
-                dstManager.AddBuffer<TileElement>(entity).Add(tileElements[countEntity]);
-                dstManager.AddComponentData(tileElementEntity, new AddressComponent() { xAdress = i, yAdress = y });
+                
+                //Added entity for TileElementBuffer
+                tileElements[countEntity] = new TileElement() { _value = tileElementEntity }; 
+                
+                dstManager.AddBuffer<NeighborsElement>(tileElementEntity);
+
+                //Added buffer Path and Weight for Creator Entity
+                dstManager.AddBuffer<PathTileElement>(creatorEntity);
+                dstManager.AddBuffer<WeightTileElement>(creatorEntity);
+                dstManager.AddBuffer<OpenTileElement>(creatorEntity);
+                dstManager.AddBuffer<OpenTileWeightElement>(creatorEntity);
+                dstManager.AddBuffer<TileElement>(creatorEntity).Add(tileElements[countEntity]);
+
+                // Generate Random weight for all tiles
+                var weight = Random.Range(0, 100);
+                dstManager.AddComponentData(tileElementEntity, new TileComponent() { _xAdress = i, _yAdress = y, _weight = weight });
                 countEntity++;
             }
         }

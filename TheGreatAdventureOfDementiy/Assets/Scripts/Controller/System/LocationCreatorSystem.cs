@@ -12,11 +12,10 @@ public sealed class LocationCreatorSystem : ComponentSystem
         Entities
             .WithNone<StopCreatingTag>()
             .WithAll<TileView, LevelCreatingTag>()
-            .ForEach((Entity entity, Transform transform, ref AddressComponent address) =>
+            .ForEach((Entity entity, Transform transform, ref TileComponent address) =>
             {
-                transform.position = new Vector3(address.xAdress, transform.position.y, address.yAdress);
-                EntityManager.AddComponent<StopCreatingTag>(entity);
-                Debug.Log("123123");
+                transform.position = new Vector3(address._xAdress, transform.position.y, address._yAdress);
+                EntityManager.AddComponent<StopCreatingTag>(entity);               
             });
     }
 }

@@ -4,5 +4,5 @@ using UnityEngine;
 
 public class TileView : MonoBehaviour
 {
-    [SerializeField] private GameObject _tileObjectView;
+    [SerializeField] public GameObject _tileObjectView;
 }

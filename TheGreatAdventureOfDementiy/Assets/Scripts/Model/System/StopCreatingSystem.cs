@@ -9,7 +9,7 @@ public class StopCreatingSystem : ComponentSystem
     {
         Entities
             .WithAll<TileView>()
-            .ForEach((Entity entity, Transform transform, ref AddressComponent address) =>
+            .ForEach((Entity entity, Transform transform, ref TileComponent address) =>
             {                
                 //EntityManager.RemoveComponent<WallComponent>(entity);
                 //Debug.Log("wow");
