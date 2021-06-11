@@ -2,8 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
-[GenerateAuthoringComponent]
-public class StopCreatingTag : MonoBehaviour
+public struct StopCreatingTag : IComponentData
 {
    
 }
