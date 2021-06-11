@@ -26,25 +26,30 @@ public class AddingNeighborSystem : ComponentSystem
 
                         if ((checkingTileAdressX - 1 == tileAdressX) && (checkingTileAdressY == tileAdressY))
                         {
-                            EntityManager.GetBuffer<NeighborsElement>(tile._value).Add(new NeighborsElement { _value = checkingTile });
+                            AddNeighborsElement(tile._value, checkingTile);
                         }
 
                         if ((checkingTileAdressX + 1 == tileAdressX) && (checkingTileAdressY == tileAdressY))
                         {
-                            EntityManager.GetBuffer<NeighborsElement>(tile._value).Add(new NeighborsElement { _value = checkingTile });
+                            AddNeighborsElement(tile._value, checkingTile);
                         }
 
                         if ((checkingTileAdressX == tileAdressX) && (checkingTileAdressY == tileAdressY - 1))
                         {
-                            EntityManager.GetBuffer<NeighborsElement>(tile._value).Add(new NeighborsElement { _value = checkingTile });
+                            AddNeighborsElement(tile._value, checkingTile);
                         }
 
                         if ((checkingTileAdressX == tileAdressX) && (checkingTileAdressY == tileAdressY + 1))
                         {
-                            EntityManager.GetBuffer<NeighborsElement>(tile._value).Add(new NeighborsElement { _value = checkingTile });
+                            AddNeighborsElement(tile._value, checkingTile);
                         }
                     }
                 }
             });
+    }
+
+    private void AddNeighborsElement(Entity tileEntity, Entity neighborEntity)
+    {
+        EntityManager.GetBuffer<NeighborsElement>(tileEntity).Add(new NeighborsElement { _value = neighborEntity });
     }
 }

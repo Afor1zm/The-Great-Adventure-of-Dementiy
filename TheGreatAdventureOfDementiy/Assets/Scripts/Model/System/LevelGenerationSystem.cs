@@ -8,10 +8,8 @@ public class LevelGenerationSystem : ComponentSystem
 {
     int startTileIndex = 0;
     protected override void OnCreate()
-    {        
-        Debug.Log("Generating Path2");
+    {          
         startTileIndex = Random.Range(0, 100);
-        Debug.Log($"Start index is {startTileIndex}");
     }
     protected override void OnUpdate()
     {
@@ -27,14 +25,14 @@ public class LevelGenerationSystem : ComponentSystem
                 var testo = new OpenTileWeightElement { _value = startTileAdress._weight };
                 startTileObject.SetActive(false);
                 EntityManager.AddBuffer<OpenTileWeightElement>(entity).Add(testo);
-                //Add StartTile to PathTileElement buffer
 
+                //Add StartTile to PathTileElement buffer
                 var newPathTileElement = new PathTileElement() { _value = startTileEntity };
                 pathTileElements.Add(newPathTileElement);
 
                 var checkEntity = startTileEntity;
-                
-                for (int i = 0; i < 60; i++)
+
+                do
                 {
                     //Visiting Neighbors for get weight from them 
                     var Neighbors = EntityManager.GetBuffer<NeighborsElement>(checkEntity).AsNativeArray();
@@ -46,20 +44,19 @@ public class LevelGenerationSystem : ComponentSystem
                         {
                             var NeighbourWeight = EntityManager.GetComponentData<TileComponent>(neighbour._value)._weight;
                             var NewOpenTileWeightElement = new OpenTileWeightElement { _value = NeighbourWeight };
-                            var NewOpenTileElementEntity = new OpenTileElement { _value = neighbour._value };                    
+                            var NewOpenTileElementEntity = new OpenTileElement { _value = neighbour._value };
                             weights.Add(NewOpenTileWeightElement._value);
                             EntityManager.AddBuffer<OpenTileWeightElement>(entity).Add(NewOpenTileWeightElement);
-                            EntityManager.AddBuffer<OpenTileElement>(entity).Add(NewOpenTileElementEntity);                                                                                 
-                        }
-                        EntityManager.GetComponentData<NeighborsComponent>(neighbour._value)._pathNeighborsCount++;
+                            EntityManager.AddBuffer<OpenTileElement>(entity).Add(NewOpenTileElementEntity);
+                        }                       
                         EntityManager.GetComponentData<NeighborsComponent>(neighbour._value)._visitedNeighborsCount++;
                     }
+
                     //Get lowest Weight from OpenTileWeightElement (from every opened tiles) and his index
                     if (weights.Count > 0)
                     {
                         var lowesWeight = weights.Min(p => p);
                         var lowestWeightIndex = weights.FindIndex(p => p == lowesWeight);
-                        //Debug.Log($"Linq works {lowesWeight} and index is {lowestWeightIndex}");
 
                         //Checked neighbour with lowest weight
                         var lowestWieghtNeighborEntity = openTiles[lowestWeightIndex]._value;
@@ -73,16 +70,19 @@ public class LevelGenerationSystem : ComponentSystem
                             var newOpenPathTile = new PathTileElement { _value = lowestWieghtNeighborEntity };
                             EntityManager.AddBuffer<PathTileElement>(entity).Add(newOpenPathTile);
                             checkEntity = lowestWieghtNeighborEntity;
-                            Debug.Log($"WORKS REMOVING TILE {i}");
+
+                            foreach (var near in Neighbors)
+                            {
+                                EntityManager.GetComponentData<NeighborsComponent>(near._value)._pathNeighborsCount++;
+                            }                           
                         }
                         else
                         {
                             weights.Remove(lowesWeight);
                             openTiles.RemoveAt(lowestWeightIndex);
-                            Debug.Log($"WORKS NOT REMOVING TILE {i}");
                         }
                     }
-                }
+                } while (weights.Count > 0);
                 EntityManager.AddComponent<LevelDoneTag>(entity);
             });
     }
