@@ -2,8 +2,6 @@
 using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
-using Unity.Collections;
-using Unity.Transforms;
 
 public sealed class PlacingTileSystem : ComponentSystem
 {
@@ -14,7 +12,7 @@ public sealed class PlacingTileSystem : ComponentSystem
             .WithAll<TileView, LevelCreatingTag>()
             .ForEach((Entity entity, Transform transform, ref TileComponent address) =>
             {
-                transform.position = new Vector3(address._xAdress, transform.position.y, address._yAdress);                
+                transform.position = new Vector3(address._xAdress, transform.position.y, address._yAdress);
                 PostUpdateCommands.AddComponent<StopCreatingTag>(entity);
             });
     }
