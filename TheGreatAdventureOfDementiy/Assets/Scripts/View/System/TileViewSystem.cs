@@ -36,6 +36,10 @@ public class TileViewSystem : ComponentSystem
                         {
                             EntityManager.GetComponentObject<TileView>(tile._value)._pathTile.SetActive(true);
                         }
+                        if (neighbourTileComponent._pathNeighborsCount == 0)
+                        {
+                            EntityManager.GetComponentObject<TileView>(tile._value)._tileObjectView.SetActive(true);
+                        }
                     }
                     else
                     {

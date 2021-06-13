@@ -18,6 +18,7 @@ public class LevelGenerationSystem : ComponentSystem
                 var startTileEntity = tiles[startTileIndex]._value;
                 var startTileObject = EntityManager.GetComponentObject<TileView>(startTileEntity)._startTile;
                 startTileObject.SetActive(true);
+                EntityManager.GetComponentData<NeighborsComponent>(startTileEntity)._visitedNeighborsCount++;
                 tiles.RemoveAt(startTileIndex);
                 PostUpdateCommands.AddComponent<TilePathTag>(startTileEntity);
                 var checkEntity = startTileEntity;
