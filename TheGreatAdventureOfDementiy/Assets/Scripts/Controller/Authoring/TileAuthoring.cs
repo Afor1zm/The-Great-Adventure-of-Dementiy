@@ -43,9 +43,8 @@ public class TileAuthoring : MonoBehaviour, IConvertGameObjectToEntity
 
                 //Added buffer Path and Weight for Creator Entity
                 dstManager.AddBuffer<PathTileElement>(creatorEntity);
-                dstManager.AddBuffer<WeightTileElement>(creatorEntity);
                 dstManager.AddBuffer<OpenTileElement>(creatorEntity);
-                dstManager.AddBuffer<OpenTileWeightElement>(creatorEntity);
+                dstManager.AddBuffer<WallTileElements>(creatorEntity);
                 dstManager.AddBuffer<TileElement>(creatorEntity).Add(tileElements[countEntity]);
 
                 // Generate Random weight for all tiles

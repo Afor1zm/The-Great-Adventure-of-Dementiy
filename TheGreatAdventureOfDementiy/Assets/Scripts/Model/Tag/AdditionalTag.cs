@@ -5,5 +5,5 @@ using Unity.Entities;
 
 public struct AdditionalTag : IComponentData
 {
-   
+    
 }

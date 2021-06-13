@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Unity.Entities;
 
-public class TilePathTag : IComponentData
+public struct TilePathTag : IComponentData
 {
     
 }

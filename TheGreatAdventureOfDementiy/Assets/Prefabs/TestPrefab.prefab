@@ -124,6 +124,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _tileObjectView: {fileID: 7000249504948730297}
+  _startTile: {fileID: 8292438382060072862, guid: 1340e0282014abc4190e1e4d9ad68341,
+    type: 3}
+  _angleTile: {fileID: 0}
+  _deadEndTile: {fileID: 0}
+  _pathTile: {fileID: 0}
 --- !u!114 &6851117000015289512
 MonoBehaviour:
   m_ObjectHideFlags: 0
